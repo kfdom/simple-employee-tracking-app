@@ -8,6 +8,7 @@ connectDB();
 app.use(express.json({ extended: true }));
 
 app.get('/', (req, res) => res.send('API Server...'));
+app.use('/api/employees', require('./routes/api/employees'));
 
 const PORT = process.env.PORT || 5001;
 
