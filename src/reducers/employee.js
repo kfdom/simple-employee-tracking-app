@@ -1,4 +1,11 @@
-import { EMPLOYEE_LOADED, EMPLOYEE_LOAD_ERROR, DISPLAY_EDIT_EMPLOYEE } from '../actions/types';
+import {
+  EMPLOYEE_LOADED,
+  EMPLOYEE_LOAD_ERROR,
+  DISPLAY_EDIT_EMPLOYEE,
+  ADD_EMPLOYEE_SUCCESS,
+  DELETE_EMPLOYEE_SUCCESS,
+  UPDATE_EMPLOYEE_SUCCESS
+} from '../actions/types';
 
 const initialState = {
   loading: true,
@@ -27,6 +34,22 @@ export default function(state = initialState, action) {
       return {
         ...state,
         displayEditEmployee: payload
+      };
+    case ADD_EMPLOYEE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        employeeList: [...state.employeeList, payload],
+        displayEditEmployee: null
+      };
+    case DELETE_EMPLOYEE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        employeeList: state.employeeList.filter(function(employee) {
+          return employee._id !== action.payload;
+        }),
+        displayEditEmployee: null
       };
     default:
       return state;

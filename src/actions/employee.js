@@ -1,5 +1,12 @@
 import axios from 'axios';
-import { EMPLOYEE_LOADED, EMPLOYEE_LOAD_ERROR, DISPLAY_EDIT_EMPLOYEE } from './types';
+import {
+  EMPLOYEE_LOADED,
+  EMPLOYEE_LOAD_ERROR,
+  DISPLAY_EDIT_EMPLOYEE,
+  ADD_EMPLOYEE_SUCCESS,
+  DELETE_EMPLOYEE_SUCCESS,
+  UPDATE_EMPLOYEE_SUCCESS
+} from './types';
 import { setAlert } from './alert';
 
 // Load Employee
@@ -34,7 +41,10 @@ export const addEmployee = ({ name, age }) => async dispatch => {
     const res = await axios.post('http://localhost:5001/api/employees', body, config);
 
     dispatch(setAlert('Employee successfully created', 'success'));
-    dispatch(loadEmployee());
+    dispatch({
+      type: ADD_EMPLOYEE_SUCCESS,
+      payload: res.data
+    });
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -76,10 +86,13 @@ export const updateEmployee = ({ name, age, id }) => async dispatch => {
 // Delete Employee
 export const deleteEmployee = id => async dispatch => {
   try {
-    await axios.delete(`http://localhost:5001/api/employees/${id}`);
+    const res = await axios.delete(`http://localhost:5001/api/employees/${id}`);
 
     dispatch(setAlert('Employee successfully deleted', 'success'));
-    dispatch(loadEmployee());
+    dispatch({
+      type: DELETE_EMPLOYEE_SUCCESS,
+      payload: res.data
+    });
   } catch (err) {
     const errors = err.response.data.errors;
 

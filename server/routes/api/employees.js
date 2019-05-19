@@ -8,7 +8,7 @@ const Employee = require('../../models/Employee');
 //GET ALL EMPLOYEE
 router.get('/', async (req, res) => {
   try {
-    const employees = await Employee.find().sort({ date: -1 });
+    const employees = await Employee.find().sort({ date: 1 });
     res.json(employees);
   } catch (err) {
     console.error(err.message);
@@ -72,7 +72,7 @@ router.post(
       });
 
       await newEmployee.save();
-      return res.json(newEmployee._id);
+      return res.json(newEmployee);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server error');
@@ -93,7 +93,7 @@ router.delete('/:id', async (req, res) => {
 
     Employee.deleteOne({ _id: mongoose.Types.ObjectId(id) }).exec();
 
-    return res.json(employee);
+    return res.json(employee._id);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
