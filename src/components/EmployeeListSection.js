@@ -15,12 +15,17 @@ const EmployeeListSection = ({
 }) => {
   const [editName, setEditName] = useState('');
   const [editAge, setEditAge] = useState('');
+  const [editGender, setEditGender] = useState('');
 
-  const updateEditEmployee = ({ displayEditEmployee, editName, editAge }) => {
-    const validationResult = validateEmployeeInput({ name: editName, age: String(editAge) });
+  const updateEditEmployee = ({ displayEditEmployee, editName, editAge, editGender }) => {
+    const validationResult = validateEmployeeInput({
+      name: editName,
+      age: String(editAge),
+      gender: editGender
+    });
 
     if (validationResult.isValid) {
-      updateEmployee({ id: displayEditEmployee, name: editName, age: editAge });
+      updateEmployee({ id: displayEditEmployee, name: editName, age: editAge, gender: editGender });
     } else {
       setAlert(validationResult.error, 'danger');
     }
@@ -42,6 +47,7 @@ const EmployeeListSection = ({
               <th>No</th>
               <th>Name</th>
               <th>Age</th>
+              <th>Gender</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -85,11 +91,39 @@ const EmployeeListSection = ({
                   <td>
                     {displayEditEmployee === employee._id ? (
                       <div>
+                        <select
+                          className="form-control"
+                          onChange={e => setEditGender(e.target.value)}
+                          value={editGender}
+                        >
+                          <option key="0" value="">
+                            Please select Gender
+                          </option>
+                          <option key="Female" value="Female">
+                            Female
+                          </option>
+                          <option key="Male" value="Male">
+                            Male
+                          </option>
+                        </select>
+                      </div>
+                    ) : (
+                      employee.gender
+                    )}
+                  </td>
+                  <td>
+                    {displayEditEmployee === employee._id ? (
+                      <div>
                         <i
                           className="fas fa-check"
                           style={{ cursor: 'pointer', color: 'green' }}
                           onClick={() =>
-                            updateEditEmployee({ displayEditEmployee, editName, editAge })
+                            updateEditEmployee({
+                              displayEditEmployee,
+                              editName,
+                              editAge,
+                              editGender
+                            })
                           }
                         />
                         <i
@@ -107,6 +141,7 @@ const EmployeeListSection = ({
                             loadEditEmployee(employee._id);
                             setEditName(employee.name);
                             setEditAge(employee.age);
+                            setEditGender(employee.gender);
                           }}
                         />
                         <i

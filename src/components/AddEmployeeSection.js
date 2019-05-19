@@ -7,14 +7,16 @@ import validateEmployeeInput from '../validation/validateEmployeeInput';
 const AddEmployeeSection = ({ addEmployee, setAlert }) => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
+  const [gender, setGender] = useState('');
 
-  const addNewEmployee = ({ name, age }) => {
-    const validationResult = validateEmployeeInput({ name, age });
+  const addNewEmployee = ({ name, age, gender }) => {
+    const validationResult = validateEmployeeInput({ name, age, gender });
 
     if (validationResult.isValid) {
-      addEmployee({ name, age });
+      addEmployee({ name, age, gender });
       setName('');
       setAge('');
+      setGender('');
     } else {
       setAlert(validationResult.error, 'danger');
     }
@@ -23,7 +25,7 @@ const AddEmployeeSection = ({ addEmployee, setAlert }) => {
   return (
     <div className="container">
       <div className="form-group row">
-        <label htmlFor="example-text-input" className="col-md-2 col-form-label">
+        <label htmlFor="example-text-input" className="col-md-3 col-form-label">
           Name
         </label>
         <div className="col-md-3">
@@ -36,10 +38,14 @@ const AddEmployeeSection = ({ addEmployee, setAlert }) => {
             required
           />
         </div>
-        <label htmlFor="example-text-input" className="col-2 col-form-label">
+        <label
+          htmlFor="example-text-input"
+          className="col-3 col-form-label"
+          style={{ marginBottom: '10px' }}
+        >
           Age
         </label>
-        <div className="col-md-3" style={{ marginBottom: '10px' }}>
+        <div className="col-md-3">
           <input
             className="form-control"
             type="number"
@@ -50,10 +56,26 @@ const AddEmployeeSection = ({ addEmployee, setAlert }) => {
             required
           />
         </div>
-        <div className="col-md-2">
+        <label htmlFor="example-text-input" className="col-3 col-form-label">
+          Gender
+        </label>
+        <div className="col-md-3" style={{ marginBottom: '10px' }}>
+          <select className="form-control" onChange={e => setGender(e.target.value)} value={gender}>
+            <option key="0" value="">
+              Please select Gender
+            </option>
+            <option key="Female" value="Female">
+              Female
+            </option>
+            <option key="Male" value="Male">
+              Male
+            </option>
+          </select>
+        </div>
+        <div className="col-md-3 text-center ">
           <button
             className="btn btn-primary btn-block"
-            onClick={() => addNewEmployee({ name, age })}
+            onClick={() => addNewEmployee({ name, age, gender })}
           >
             Add
           </button>

@@ -14,8 +14,6 @@ export const loadEmployee = () => async dispatch => {
   try {
     const res = await axios.get('http://localhost:5001/api/employees');
 
-    console.log('RES', res.data);
-
     dispatch({
       type: EMPLOYEE_LOADED,
       payload: res.data
@@ -28,14 +26,14 @@ export const loadEmployee = () => async dispatch => {
 };
 
 // Add Employee
-export const addEmployee = ({ name, age }) => async dispatch => {
+export const addEmployee = ({ name, age, gender }) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
     }
   };
 
-  const body = JSON.stringify({ name, age });
+  const body = JSON.stringify({ name, age, gender });
 
   try {
     const res = await axios.post('http://localhost:5001/api/employees', body, config);
@@ -57,14 +55,14 @@ export const addEmployee = ({ name, age }) => async dispatch => {
 };
 
 // Update Employee
-export const updateEmployee = ({ name, age, id }) => async dispatch => {
+export const updateEmployee = ({ name, age, gender, id }) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
     }
   };
 
-  const body = JSON.stringify({ name, age, id });
+  const body = JSON.stringify({ name, age, gender, id });
 
   try {
     const res = await axios.post('http://localhost:5001/api/employees', body, config);

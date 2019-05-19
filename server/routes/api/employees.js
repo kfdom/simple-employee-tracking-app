@@ -37,7 +37,10 @@ router.post(
     check('age', 'Age is required')
       .not()
       .isEmpty(),
-    check('age', 'Please include a valid age').isInt({ gt: 0, lt: 200 })
+    check('age', 'Please include a valid age').isInt({ gt: 0, lt: 200 }),
+    check('gender', 'Gender is required')
+      .not()
+      .isEmpty()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -45,7 +48,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, age, id } = req.body;
+    const { name, age, gender, id } = req.body;
 
     try {
       const employee = await Employee.findById(id);
@@ -55,6 +58,7 @@ router.post(
         const employeeFields = {};
         employeeFields.name = name;
         employeeFields.age = age;
+        employeeFields.gender = gender;
 
         updateEmployee = await Employee.findOneAndUpdate(
           { _id: employee._id },
@@ -68,7 +72,8 @@ router.post(
       //Create
       let newEmployee = new Employee({
         name,
-        age
+        age,
+        gender
       });
 
       await newEmployee.save();

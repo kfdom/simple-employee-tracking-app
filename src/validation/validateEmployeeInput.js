@@ -1,8 +1,6 @@
 import isEmpty from './is-empty';
 
-const validateEmployeeInput = ({ name, age }) => {
-  console.log('AGE', age);
-  console.log('name', name);
+const validateEmployeeInput = ({ name, age, gender }) => {
   name = name.trim();
   age = Number(age.trim());
 
@@ -14,6 +12,8 @@ const validateEmployeeInput = ({ name, age }) => {
     error = 'Please enter Age';
   } else if (!Number.isInteger(age) || age <= 0 || age > 200) {
     error = 'Please enter a valid Age';
+  } else if (isEmpty(gender)) {
+    error = 'Please select Gender';
   }
 
   return {
