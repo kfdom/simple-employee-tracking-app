@@ -1,8 +1,9 @@
-import { EMPLOYEE_LOADED, EMPLOYEE_LOAD_ERROR } from '../actions/types';
+import { EMPLOYEE_LOADED, EMPLOYEE_LOAD_ERROR, DISPLAY_EDIT_EMPLOYEE } from '../actions/types';
 
 const initialState = {
   loading: true,
-  employeeList: []
+  employeeList: [],
+  displayEditEmployee: null
 };
 
 export default function(state = initialState, action) {
@@ -13,13 +14,19 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        employeeList: payload
+        employeeList: payload,
+        displayEditEmployee: null
       };
     case EMPLOYEE_LOAD_ERROR:
       return {
         ...state,
         loading: false,
         employeeList: []
+      };
+    case DISPLAY_EDIT_EMPLOYEE:
+      return {
+        ...state,
+        displayEditEmployee: payload
       };
     default:
       return state;

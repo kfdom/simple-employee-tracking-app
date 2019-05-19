@@ -1,7 +1,31 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { deleteEmployee, loadEditEmployee, updateEmployee } from '../actions/employee';
+import { setAlert } from '../actions/alert';
+import validateEmployeeInput from '../validation/validateEmployeeInput';
 
-const EmployeeListSection = ({ employeeList, loading }) => {
+const EmployeeListSection = ({
+  employeeList,
+  loading,
+  deleteEmployee,
+  loadEditEmployee,
+  displayEditEmployee,
+  setAlert,
+  updateEmployee
+}) => {
+  const [editName, setEditName] = useState('');
+  const [editAge, setEditAge] = useState('');
+
+  const updateEditEmployee = ({ displayEditEmployee, editName, editAge }) => {
+    const validationResult = validateEmployeeInput({ name: editName, age: String(editAge) });
+
+    if (validationResult.isValid) {
+      updateEmployee({ id: displayEditEmployee, name: editName, age: editAge });
+    } else {
+      setAlert(validationResult.error, 'danger');
+    }
+  };
+
   return (
     <div>
       {loading ? (
@@ -26,30 +50,80 @@ const EmployeeListSection = ({ employeeList, loading }) => {
               return (
                 <tr key={index}>
                   <td>{index + 1}</td>
-                  <td>{employee.name}</td>
-                  <td>{employee.age}</td>
                   <td>
-                    {' '}
-                    <div>
-                      <i
-                        className="fas fa-pen"
-                        style={{ cursor: 'pointer' }}
-                        onClick={}
-                      />
-                      <i
-                        className="fas fa-times"
-                        style={{ color: 'red', marginLeft: '10px', cursor: 'pointer' }}
-                        onClick={() => {
-                          const confirmed = window.confirm(
-                            'Are you sure you want to delete this employee?'
-                          );
-                          if (!confirmed) {
-                            return;
+                    {displayEditEmployee === employee._id ? (
+                      <div>
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Name"
+                          onChange={e => setEditName(e.target.value)}
+                          value={editName}
+                          required
+                        />
+                      </div>
+                    ) : (
+                      employee.name
+                    )}
+                  </td>
+                  <td>
+                    {displayEditEmployee === employee._id ? (
+                      <div>
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Age"
+                          onChange={e => setEditAge(e.target.value)}
+                          value={editAge}
+                          required
+                        />
+                      </div>
+                    ) : (
+                      employee.age
+                    )}
+                  </td>
+                  <td>
+                    {displayEditEmployee === employee._id ? (
+                      <div>
+                        <i
+                          className="fas fa-check"
+                          style={{ cursor: 'pointer', color: 'green' }}
+                          onClick={() =>
+                            updateEditEmployee({ displayEditEmployee, editName, editAge })
                           }
-                          deleteEmployee();
-                        }}
-                      />
-                    </div>
+                        />
+                        <i
+                          className="fas fa-arrow-left"
+                          style={{ color: 'red', marginLeft: '10px', cursor: 'pointer' }}
+                          onClick={() => loadEditEmployee(null)}
+                        />
+                      </div>
+                    ) : (
+                      <div>
+                        <i
+                          className="fas fa-pen"
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            loadEditEmployee(employee._id);
+                            setEditName(employee.name);
+                            setEditAge(employee.age);
+                          }}
+                        />
+                        <i
+                          className="fas fa-times"
+                          style={{ color: 'red', marginLeft: '10px', cursor: 'pointer' }}
+                          onClick={() => {
+                            const confirmed = window.confirm(
+                              'Are you sure you want to delete this employee?'
+                            );
+                            if (!confirmed) {
+                              return;
+                            }
+                            deleteEmployee(employee._id);
+                          }}
+                        />
+                      </div>
+                    )}
                   </td>
                 </tr>
               );
@@ -65,8 +139,12 @@ const mapStateToProps = state => {
   console.log('STATE', state);
   return {
     employeeList: state.employee.employeeList,
-    loading: state.employee.loading
+    loading: state.employee.loading,
+    displayEditEmployee: state.employee.displayEditEmployee
   };
 };
 
-export default connect(mapStateToProps)(EmployeeListSection);
+export default connect(
+  mapStateToProps,
+  { deleteEmployee, loadEditEmployee, setAlert, updateEmployee }
+)(EmployeeListSection);

@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { addEmployee } from '../actions/employee';
+import { setAlert } from '../actions/alert';
+import validateEmployeeInput from '../validation/validateEmployeeInput';
 
-const AddEmployeeSection = ({ addEmployee }) => {
+const AddEmployeeSection = ({ addEmployee, setAlert }) => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
 
   const addNewEmployee = ({ name, age }) => {
-    addEmployee({ name, age });
-    setName('');
-    setAge('');
+    const validationResult = validateEmployeeInput({ name, age });
+
+    if (validationResult.isValid) {
+      addEmployee({ name, age });
+      setName('');
+      setAge('');
+    } else {
+      setAlert(validationResult.error, 'danger');
+    }
   };
 
   return (
@@ -57,5 +65,5 @@ const AddEmployeeSection = ({ addEmployee }) => {
 
 export default connect(
   null,
-  { addEmployee }
+  { addEmployee, setAlert }
 )(AddEmployeeSection);

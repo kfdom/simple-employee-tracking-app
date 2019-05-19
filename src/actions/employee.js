@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { EMPLOYEE_LOADED, EMPLOYEE_LOAD_ERROR } from './types';
+import { EMPLOYEE_LOADED, EMPLOYEE_LOAD_ERROR, DISPLAY_EDIT_EMPLOYEE } from './types';
 import { setAlert } from './alert';
 
 // Load Employee
@@ -34,7 +34,6 @@ export const addEmployee = ({ name, age }) => async dispatch => {
     const res = await axios.post('http://localhost:5001/api/employees', body, config);
 
     dispatch(setAlert('Employee successfully created', 'success'));
-    //dispatch(reset('addForm'));
     dispatch(loadEmployee());
   } catch (err) {
     const errors = err.response.data.errors;
@@ -47,7 +46,7 @@ export const addEmployee = ({ name, age }) => async dispatch => {
   }
 };
 
-// Add Employee
+// Update Employee
 export const updateEmployee = ({ name, age, id }) => async dispatch => {
   const config = {
     headers: {
@@ -60,7 +59,7 @@ export const updateEmployee = ({ name, age, id }) => async dispatch => {
   try {
     const res = await axios.post('http://localhost:5001/api/employees', body, config);
 
-    //dispatch(setAlert('Employee successfully updated', 'success'));
+    dispatch(setAlert('Employee successfully updated', 'success'));
 
     dispatch(loadEmployee());
   } catch (err) {
@@ -72,4 +71,30 @@ export const updateEmployee = ({ name, age, id }) => async dispatch => {
 
     dispatch(loadEmployee());
   }
+};
+
+// Delete Employee
+export const deleteEmployee = id => async dispatch => {
+  try {
+    await axios.delete(`http://localhost:5001/api/employees/${id}`);
+
+    dispatch(setAlert('Employee successfully deleted', 'success'));
+    dispatch(loadEmployee());
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+
+    dispatch(loadEmployee());
+  }
+};
+
+// Load Edit Employee Row
+export const loadEditEmployee = id => dispatch => {
+  dispatch({
+    type: DISPLAY_EDIT_EMPLOYEE,
+    payload: id
+  });
 };
