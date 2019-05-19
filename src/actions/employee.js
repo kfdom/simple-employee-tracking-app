@@ -14,7 +14,7 @@ import { setAlert } from './alert';
 // Load Employee
 export const loadEmployee = () => async dispatch => {
   try {
-    const res = await axios.get('http://localhost:5001/api/employees');
+    const res = await axios.get(`${process.env.API_HOST}/api/employees`);
 
     dispatch({
       type: EMPLOYEE_LOADED,
@@ -38,7 +38,7 @@ export const addEmployee = ({ name, age, gender }) => async dispatch => {
   const body = JSON.stringify({ name, age, gender });
 
   try {
-    const res = await axios.post('http://localhost:5001/api/employees', body, config);
+    const res = await axios.post(`${process.env.API_HOST}/api/employees`, body, config);
 
     dispatch(setAlert('Employee successfully created', 'success'));
     dispatch({
@@ -67,7 +67,7 @@ export const updateEmployee = ({ name, age, gender, id }) => async dispatch => {
   const body = JSON.stringify({ name, age, gender, id });
 
   try {
-    const res = await axios.post('http://localhost:5001/api/employees', body, config);
+    const res = await axios.post(`${process.env.API_HOST}/api/employees`, body, config);
 
     dispatch(setAlert('Employee successfully updated', 'success'));
 
@@ -86,7 +86,7 @@ export const updateEmployee = ({ name, age, gender, id }) => async dispatch => {
 // Delete Employee
 export const deleteEmployee = id => async dispatch => {
   try {
-    const res = await axios.delete(`http://localhost:5001/api/employees/${id}`);
+    const res = await axios.delete(`${process.env.API_HOST}/api/employees/${id}`);
 
     dispatch(setAlert('Employee successfully deleted', 'success'));
     dispatch({
