@@ -4,14 +4,16 @@ import {
   DISPLAY_EDIT_EMPLOYEE,
   ADD_EMPLOYEE_SUCCESS,
   DELETE_EMPLOYEE_SUCCESS,
-  UPDATE_EMPLOYEE_SUCCESS,
-  SEARCH_EMPLOYEE
+  SEARCH_EMPLOYEE,
+  SHOW_ADD_PANEL,
+  HIDE_ADD_PANEL
 } from '../actions/types';
 
 const initialState = {
   loading: true,
   employeeList: [],
-  displayEditEmployee: null
+  displayEditEmployee: null,
+  displayAddPanel: false
 };
 
 export default function(state = initialState, action) {
@@ -78,6 +80,16 @@ export default function(state = initialState, action) {
         ...state,
         loading: false,
         employeeList: newEmployeeList
+      };
+    case SHOW_ADD_PANEL:
+      return {
+        ...state,
+        displayAddPanel: true
+      };
+    case HIDE_ADD_PANEL:
+      return {
+        ...state,
+        displayAddPanel: false
       };
     default:
       return state;

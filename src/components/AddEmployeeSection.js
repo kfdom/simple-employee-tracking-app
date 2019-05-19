@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { addEmployee } from '../actions/employee';
+import { addEmployee, showHideAddEmployeePanel } from '../actions/employee';
 import { setAlert } from '../actions/alert';
 import validateEmployeeInput from '../validation/validateEmployeeInput';
 
-const AddEmployeeSection = ({ addEmployee, setAlert }) => {
+const AddEmployeeSection = ({
+  addEmployee,
+  setAlert,
+  displayAddPanel,
+  showHideAddEmployeePanel
+}) => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [gender, setGender] = useState('');
@@ -23,70 +28,99 @@ const AddEmployeeSection = ({ addEmployee, setAlert }) => {
   };
 
   return (
-    <div className="container">
-      <h1>Add</h1>
-      <div className="form-group row">
-        <label htmlFor="example-text-input" className="col-md-3 col-form-label">
-          Name
-        </label>
-        <div className="col-md-3">
-          <input
-            className="form-control"
-            type="text"
-            placeholder="Name"
-            onChange={e => setName(e.target.value)}
-            value={name}
-            required
-          />
+    <Fragment>
+      {displayAddPanel ? (
+        <div className="container">
+          <h1>Add</h1>
+          <div className="form-group row">
+            <label htmlFor="example-text-input" className="col-md-3 col-form-label">
+              Name
+            </label>
+            <div className="col-md-3">
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Name"
+                onChange={e => setName(e.target.value)}
+                value={name}
+                required
+              />
+            </div>
+            <label
+              htmlFor="example-text-input"
+              className="col-3 col-form-label"
+              style={{ marginBottom: '10px' }}
+            >
+              Age
+            </label>
+            <div className="col-md-3">
+              <input
+                className="form-control"
+                type="number"
+                step="1"
+                placeholder="Age"
+                onChange={e => setAge(e.target.value)}
+                value={age}
+                required
+              />
+            </div>
+            <label htmlFor="example-text-input" className="col-3 col-form-label">
+              Gender
+            </label>
+            <div className="col-md-3" style={{ marginBottom: '10px' }}>
+              <select
+                className="form-control"
+                onChange={e => setGender(e.target.value)}
+                value={gender}
+              >
+                <option key="0" value="">
+                  Please select Gender
+                </option>
+                <option key="Female" value="Female">
+                  Female
+                </option>
+                <option key="Male" value="Male">
+                  Male
+                </option>
+              </select>
+            </div>
+            <div className="col-md-3 text-center ">
+              <button
+                className="btn btn-primary btn-block"
+                onClick={() => addNewEmployee({ name, age, gender })}
+              >
+                Add
+              </button>
+            </div>
+            <div className="col-md-3 text-center ">
+              <button
+                className="btn btn-secondary btn-block"
+                onClick={() => showHideAddEmployeePanel(false)}
+              >
+                Hide
+              </button>
+            </div>
+          </div>
         </div>
-        <label
-          htmlFor="example-text-input"
-          className="col-3 col-form-label"
-          style={{ marginBottom: '10px' }}
-        >
-          Age
-        </label>
-        <div className="col-md-3">
-          <input
-            className="form-control"
-            type="number"
-            step="1"
-            placeholder="Age"
-            onChange={e => setAge(e.target.value)}
-            value={age}
-            required
-          />
-        </div>
-        <label htmlFor="example-text-input" className="col-3 col-form-label">
-          Gender
-        </label>
-        <div className="col-md-3" style={{ marginBottom: '10px' }}>
-          <select className="form-control" onChange={e => setGender(e.target.value)} value={gender}>
-            <option key="0" value="">
-              Please select Gender
-            </option>
-            <option key="Female" value="Female">
-              Female
-            </option>
-            <option key="Male" value="Male">
-              Male
-            </option>
-          </select>
-        </div>
-        <div className="col-md-3 text-center ">
-          <button
-            className="btn btn-primary btn-block"
-            onClick={() => addNewEmployee({ name, age, gender })}
-          >
-            Add
+      ) : (
+        <div className="container">
+          {' '}
+          <button className="btn btn-primary btn-lg" onClick={() => showHideAddEmployeePanel(true)}>
+            Add Employee
           </button>
         </div>
-      </div>
-    </div>
+      )}
+    </Fragment>
   );
 };
 
+const mapStateToProps = state => {
+  return {
+    displayAddPanel: state.employee.displayAddPanel
+  };
+};
+
 export default connect(
-  null,
-  { addEmployee, setAlert }
+  mapStateToProps,
+  { addEmployee, setAlert, showHideAddEmployeePanel }
 )(AddEmployeeSection);

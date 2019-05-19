@@ -5,8 +5,9 @@ import {
   DISPLAY_EDIT_EMPLOYEE,
   ADD_EMPLOYEE_SUCCESS,
   DELETE_EMPLOYEE_SUCCESS,
-  UPDATE_EMPLOYEE_SUCCESS,
-  SEARCH_EMPLOYEE
+  SEARCH_EMPLOYEE,
+  SHOW_ADD_PANEL,
+  HIDE_ADD_PANEL
 } from './types';
 import { setAlert } from './alert';
 
@@ -124,4 +125,19 @@ export const searchEmployee = searchCriteria => dispatch => {
       payload: searchCriteria
     });
   });
+};
+
+// Show Add Employee Panel
+export const showHideAddEmployeePanel = isShow => dispatch => {
+  if (isShow) {
+    dispatch({
+      type: SHOW_ADD_PANEL,
+      payload: isShow
+    });
+  } else {
+    dispatch({
+      type: HIDE_ADD_PANEL,
+      payload: isShow
+    });
+  }
 };
