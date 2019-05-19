@@ -11,11 +11,13 @@ export default function(state = initialState, action) {
   switch (type) {
     case USER_LOADED:
       return {
+        // ...state,
         loading: false,
         employeeList: payload
       };
     case USER_LOAD_ERROR:
       return {
+        // ...state,
         loading: false,
         employeeList: []
       };

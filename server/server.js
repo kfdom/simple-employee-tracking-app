@@ -1,4 +1,5 @@
 const express = require('express');
+var cors = require('cors');
 const connectDB = require('./config/db');
 
 const app = express();
@@ -6,6 +7,7 @@ const app = express();
 connectDB();
 
 app.use(express.json({ extended: true }));
+app.use(cors());
 
 app.get('/', (req, res) => res.send('API Server...'));
 app.use('/api/employees', require('./routes/api/employees'));
