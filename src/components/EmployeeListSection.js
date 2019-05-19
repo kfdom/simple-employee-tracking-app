@@ -163,6 +163,11 @@ const EmployeeListSection = ({
                 </tr>
               );
             })}
+            {employeeList.length === 0 && (
+              <td align="center" colspan="5">
+                No Record(s) Found!
+              </td>
+            )}
           </tbody>
         </table>
       )}
@@ -171,7 +176,6 @@ const EmployeeListSection = ({
 };
 
 const mapStateToProps = state => {
-  console.log('STATE', state);
   return {
     employeeList: state.employee.employeeList,
     loading: state.employee.loading,

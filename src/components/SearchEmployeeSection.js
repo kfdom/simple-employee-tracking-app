@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { searchEmployee } from '../actions/employee';
 
-const SearchEmployeeSection = ({}) => {
+const SearchEmployeeSection = ({ searchEmployee }) => {
+  const [name, setName] = useState('');
   const [ageFrom, setAgeFrom] = useState('');
   const [ageTo, setAgeTo] = useState('');
   const [gender, setGender] = useState('');
+
+  const reset = () => {
+    setName('');
+    setAgeFrom('');
+    setAgeTo('');
+    setGender('');
+  };
 
   return (
     <div className="container">
@@ -11,10 +21,26 @@ const SearchEmployeeSection = ({}) => {
       <div className="form-group row">
         <label
           htmlFor="example-text-input"
+          className="col-3 col-form-label"
+          style={{ marginBottom: '10px' }}
+        >
+          Name
+        </label>
+        <div className="col-md-3">
+          <input
+            className="form-control"
+            type="text"
+            placeholder="Name"
+            onChange={e => setName(e.target.value)}
+            value={name}
+          />
+        </div>
+        <label
+          htmlFor="example-text-input"
           className="col-2 col-form-label"
           style={{ marginBottom: '10px' }}
         >
-          Age From
+          Age From/To
         </label>
         <div className="col-md-2">
           <input
@@ -28,13 +54,6 @@ const SearchEmployeeSection = ({}) => {
             max="200"
           />
         </div>
-        <label
-          htmlFor="example-text-input"
-          className="col-2 col-form-label"
-          style={{ marginBottom: '10px' }}
-        >
-          Age To
-        </label>
         <div className="col-md-2">
           <input
             className="form-control"
@@ -47,10 +66,12 @@ const SearchEmployeeSection = ({}) => {
             max="200"
           />
         </div>
-        <label htmlFor="example-text-input" className="col-2 col-form-label">
+      </div>
+      <div className="form-group row">
+        <label htmlFor="example-text-input" className="col-3 col-form-label">
           Gender
         </label>
-        <div className="col-md-2" style={{ marginBottom: '10px' }}>
+        <div className="col-md-3" style={{ marginBottom: '10px' }}>
           <select className="form-control" onChange={e => setGender(e.target.value)} value={gender}>
             <option key="0" value="">
               All
@@ -63,9 +84,25 @@ const SearchEmployeeSection = ({}) => {
             </option>
           </select>
         </div>
+        <div className="col-md-3 text-center ">
+          <button
+            className="btn btn-primary btn-block"
+            onClick={() => searchEmployee({ name, ageFrom, ageTo, gender })}
+          >
+            Search
+          </button>
+        </div>
+        <div className="col-md-3 text-center ">
+          <button className="btn btn-secondary btn-block" onClick={() => reset()}>
+            Reset
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default SearchEmployeeSection;
+export default connect(
+  null,
+  { searchEmployee }
+)(SearchEmployeeSection);

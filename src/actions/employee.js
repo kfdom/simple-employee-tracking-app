@@ -5,7 +5,8 @@ import {
   DISPLAY_EDIT_EMPLOYEE,
   ADD_EMPLOYEE_SUCCESS,
   DELETE_EMPLOYEE_SUCCESS,
-  UPDATE_EMPLOYEE_SUCCESS
+  UPDATE_EMPLOYEE_SUCCESS,
+  SEARCH_EMPLOYEE
 } from './types';
 import { setAlert } from './alert';
 
@@ -107,5 +108,20 @@ export const loadEditEmployee = id => dispatch => {
   dispatch({
     type: DISPLAY_EDIT_EMPLOYEE,
     payload: id
+  });
+};
+
+// Search Employee
+export const searchEmployee = searchCriteria => dispatch => {
+  //fetch all employee before filtering
+  const loadAllEmployee = new Promise(function(resolve, reject) {
+    resolve(dispatch(loadEmployee()));
+  });
+
+  loadAllEmployee.then(function() {
+    dispatch({
+      type: SEARCH_EMPLOYEE,
+      payload: searchCriteria
+    });
   });
 };
