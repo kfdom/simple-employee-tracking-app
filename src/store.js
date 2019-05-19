@@ -14,6 +14,8 @@ if (process.env.ENVIRONMENT !== 'production') {
   middleware.push(logger);
 }
 
+console.log(process.env.ENVIRONMENT);
+
 const store = createStore(
   rootReducer,
   initialState,
