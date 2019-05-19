@@ -30,6 +30,7 @@ Follow the steps below to install and run the application : -
 * Change directory to the server folder which is the back-end (example: cd server)
 * Type in "npm install" to install all packages that needed by the project (Server - back-end)
 * Type in "npm start" to start the application (Server - back-end)
+* A server will be running at port 5001
 
 * Open a new tab from the browser and enter http://localhost:4000
 
