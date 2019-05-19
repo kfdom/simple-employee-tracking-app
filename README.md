@@ -23,11 +23,11 @@ Follow the steps below to install and run the application : -
 * The project source code will download into your workspace
 * Change directory to the project folder (example: cd simple-employee-tracking-app)
 * Type in "npm install" to install all packages that needed by the project (Client - front-end)
-* Type in "npm start" to start the application (Server - front-end)
+* Type in "npm start" to start the application (Client - front-end)
 * A server will be running at port 4000
 
 * Open Another Command Prompt and change directory to your project (example: cd c:/workspace/simple-employee-tracking-app)
-* Change directory to the client folder which is the front-end (example: cd server)
+* Change directory to the server folder which is the back-end (example: cd server)
 * Type in "npm install" to install all packages that needed by the project (Server - back-end)
 * Type in "npm start" to start the application (Server - back-end)
 
