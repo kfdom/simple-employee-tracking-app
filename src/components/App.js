@@ -2,6 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import Navbar from './Navbar';
 import AddEmployeeSection from './AddEmployeeSection';
 import EmployeeListSection from './EmployeeListSection';
+import SearchEmployeeSection from './SearchEmployeeSection';
 import Alert from './Alert';
 
 // Redux
@@ -25,6 +26,10 @@ const App = () => {
           </div>
           <div>
             <AddEmployeeSection />
+          </div>
+          <hr />
+          <div>
+            <SearchEmployeeSection />
           </div>
           <div>
             <EmployeeListSection />

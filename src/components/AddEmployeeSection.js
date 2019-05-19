@@ -24,6 +24,7 @@ const AddEmployeeSection = ({ addEmployee, setAlert }) => {
 
   return (
     <div className="container">
+      <h1>Add</h1>
       <div className="form-group row">
         <label htmlFor="example-text-input" className="col-md-3 col-form-label">
           Name
